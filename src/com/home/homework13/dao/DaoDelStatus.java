@@ -4,6 +4,7 @@ import com.home.homework13.database.DB;
 import com.home.homework13.entity.DelStatus;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DaoDelStatus implements CarRentInterface<DelStatus> {
@@ -54,7 +55,17 @@ public class DaoDelStatus implements CarRentInterface<DelStatus> {
     }
 
     @Override
-    public DelStatus get(int id) {
-        return null;
+    public ResultSet get(int id) {
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM del_status WHERE id=?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return resultSet;
     }
 }

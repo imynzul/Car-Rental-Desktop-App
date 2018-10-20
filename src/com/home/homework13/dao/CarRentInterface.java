@@ -1,5 +1,7 @@
 package com.home.homework13.dao;
 
+import java.sql.ResultSet;
+
 public interface CarRentInterface<T> {
 
     public abstract void insert(T ob);
@@ -8,7 +10,7 @@ public interface CarRentInterface<T> {
 
     public abstract void delete(int id);
 
-    public abstract T get(int id);
+    public abstract ResultSet get(int id);
 
 
 

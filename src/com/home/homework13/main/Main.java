@@ -2,6 +2,7 @@ package com.home.homework13.main;
 
 import com.home.homework13.dao.*;
 import com.home.homework13.database.DB;
+import com.home.homework13.database.DBwork;
 import com.home.homework13.entity.*;
 
 import java.sql.ResultSet;
@@ -10,7 +11,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DB db = new DB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");
+        /*DB db = new DB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");*/
+
+        DBwork.createDB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");
+
 
        /* db.update("INSERT INTO del_status (value) VALUES ('active'), ('blocked'), ('deleted')");*/
 
@@ -60,9 +64,14 @@ public class Main {
         User user = new User(5, "blabla@gmail.de", "4567", 2, 2);
         daoUser.delete(5);*/
 
-        DaoUserOrder daoUserOrder = new DaoUserOrder(db);
+        /*DaoUserOrder daoUserOrder = new DaoUserOrder(db);
         UserOrder userOrder3 = new UserOrder(3, 1, "BBB", 1);
-        daoUserOrder.update(userOrder3);
+        daoUserOrder.update(userOrder3);*/
+
+        /*DaoAuto daoAuto = new DaoAuto(db);
+        ResultSet resultSet = daoAuto.get(1);
+        db.showTable(resultSet);*/
+
 
 
 

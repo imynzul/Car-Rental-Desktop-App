@@ -4,6 +4,7 @@ import com.home.homework13.database.DB;
 import com.home.homework13.entity.Auto;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DaoAuto implements CarRentInterface<Auto> {
@@ -55,7 +56,17 @@ public class DaoAuto implements CarRentInterface<Auto> {
     }
 
     @Override
-    public Auto get(int id) {
-        return null;
+    public ResultSet get(int id) {
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM auto WHERE id=?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return resultSet;
     }
 }

@@ -2,9 +2,9 @@ package com.home.homework13.dao;
 
 import com.home.homework13.database.DB;
 import com.home.homework13.entity.UserOrder;
-import sun.dc.pr.PRError;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DaoUserOrder implements CarRentInterface<UserOrder> {
@@ -58,7 +58,17 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     }
 
     @Override
-    public UserOrder get(int id) {
-        return null;
+    public ResultSet get(int id) {
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user_order WHERE id=?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return resultSet;
     }
 }

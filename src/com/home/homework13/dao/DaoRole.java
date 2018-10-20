@@ -2,9 +2,9 @@ package com.home.homework13.dao;
 
 import com.home.homework13.database.DB;
 import com.home.homework13.entity.Role;
-import com.sun.applet2.preloader.event.PreloaderEvent;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DaoRole implements CarRentInterface<Role> {
@@ -55,7 +55,17 @@ public class DaoRole implements CarRentInterface<Role> {
     }
 
     @Override
-    public Role get(int id) {
-        return null;
+    public ResultSet get(int id) {
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM role WHERE id=?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return resultSet;
     }
 }
