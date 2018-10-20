@@ -10,7 +10,7 @@ public interface CarRentInterface<T> {
 
     public abstract void delete(int id);
 
-    public abstract ResultSet get(int id);
+    public abstract T get(int id);
 
 
 

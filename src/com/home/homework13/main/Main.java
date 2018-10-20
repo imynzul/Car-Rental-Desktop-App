@@ -11,9 +11,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*DB db = new DB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");*/
+        DB db = new DB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");
 
-        DBwork.createDB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");
+        /*DBwork.createDB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");*/
 
 
        /* db.update("INSERT INTO del_status (value) VALUES ('active'), ('blocked'), ('deleted')");*/
@@ -52,25 +52,35 @@ public class Main {
         DaoAuto daoAuto = new DaoAuto(db);
         daoAuto.delete(1);*/
 
-        /*DaoDelStatus daoDelStatus = new DaoDelStatus(db);
-        DelStatus delStatus = new DelStatus(4, "half-active");
-        daoDelStatus.delete(4);*/
+       /* DaoDelStatus daoDelStatus = new DaoDelStatus(db);
+        DelStatus delStatus = daoDelStatus.get(2);
+        System.out.println(delStatus);*/
 
-        /*Role role = new Role();
-        DaoRole daoRole = new DaoRole(db);
-        daoRole.delete(5);*/
+
+
+       /* DaoRole daoRole = new DaoRole(db);
+        Role role = daoRole.get(1);
+        System.out.println(role);*/
+
 
         /*DaoUser daoUser = new DaoUser(db);
-        User user = new User(5, "blabla@gmail.de", "4567", 2, 2);
-        daoUser.delete(5);*/
+        User user = daoUser.get(3);
+        System.out.println(user);*/
+
 
         /*DaoUserOrder daoUserOrder = new DaoUserOrder(db);
         UserOrder userOrder3 = new UserOrder(3, 1, "BBB", 1);
-        daoUserOrder.update(userOrder3);*/
+        daoUserOrder.update(userOrder3);
 
         /*DaoAuto daoAuto = new DaoAuto(db);
-        ResultSet resultSet = daoAuto.get(1);
-        db.showTable(resultSet);*/
+        Auto auto = daoAuto.get(5);
+        System.out.println(auto);*/
+
+        /*DaoUserOrder daoUserOrder = new DaoUserOrder(db);
+        UserOrder userOrder = daoUserOrder.get(2);
+        System.out.println(userOrder);*/
+
+
 
 
 

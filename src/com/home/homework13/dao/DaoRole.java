@@ -55,17 +55,20 @@ public class DaoRole implements CarRentInterface<Role> {
     }
 
     @Override
-    public ResultSet get(int id) {
-        ResultSet resultSet = null;
+    public Role get(int id) {
+        Role role = null;
         try {
             PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM role WHERE id=?");
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                role = new Role(resultSet.getInt(1), resultSet.getString(2));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-        return resultSet;
+        return role;
     }
 }

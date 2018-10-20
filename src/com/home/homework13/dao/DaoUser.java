@@ -58,17 +58,20 @@ public class DaoUser implements CarRentInterface<User> {
     }
 
     @Override
-    public ResultSet get(int id) {
-        ResultSet resultSet = null;
+    public User get(int id) {
+        User user = null;
         try {
             PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user WHERE id=?");
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getInt(5));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-        return resultSet;
+        return user;
     }
 }

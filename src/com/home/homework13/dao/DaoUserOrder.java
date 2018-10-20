@@ -18,7 +18,7 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     @Override
     public void insert(UserOrder ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO user_order VALUES (?,?, ?, ?)");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO orders VALUES (?,?, ?, ?)");
             preparedStatement.setInt(1, ob.getId());
             preparedStatement.setInt(2, ob.getUserId());
             preparedStatement.setString(3, ob.getPassportNumber());
@@ -33,10 +33,9 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     @Override
     public void update(UserOrder ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE user_order SET passport_number=? WHERE id=?");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE orders SET passport_number=? WHERE id=?");
             preparedStatement.setString(1, ob.getPassportNumber());
             preparedStatement.setInt(2, ob.getId());
-            preparedStatement.execute();
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +46,7 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     @Override
     public void delete(int id) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("DELETE FROM user_order WHERE id=?");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("DELETE FROM orders WHERE id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -58,17 +57,20 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     }
 
     @Override
-    public ResultSet get(int id) {
-        ResultSet resultSet = null;
+    public UserOrder get(int id) {
+        UserOrder userOrder = null;
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user_order WHERE id=?");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM orders WHERE id=?");
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                userOrder = new UserOrder(resultSet.getInt(1), resultSet.getInt(2), resultSet.getString(3), resultSet.getInt(4));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-        return resultSet;
+        return userOrder;
     }
 }

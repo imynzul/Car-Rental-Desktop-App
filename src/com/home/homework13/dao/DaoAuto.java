@@ -56,17 +56,20 @@ public class DaoAuto implements CarRentInterface<Auto> {
     }
 
     @Override
-    public ResultSet get(int id) {
-        ResultSet resultSet = null;
+    public Auto get(int id) {
+        Auto auto = null;
         try {
             PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM auto WHERE id=?");
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                auto = new Auto(resultSet.getInt(1), resultSet.getString(2));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-        return resultSet;
+        return auto;
     }
 }

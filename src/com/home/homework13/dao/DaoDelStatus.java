@@ -18,7 +18,7 @@ public class DaoDelStatus implements CarRentInterface<DelStatus> {
     @Override
     public void insert(DelStatus ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO del_status VALUES(?,?)");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO status VALUES(?,?)");
             preparedStatement.setInt(1, ob.getId());
             preparedStatement.setString(2, ob.getValue());
             preparedStatement.execute();
@@ -31,7 +31,7 @@ public class DaoDelStatus implements CarRentInterface<DelStatus> {
     @Override
     public void update(DelStatus ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE del_status SET value=? WHERE id=?");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE status SET value=? WHERE id=?");
             preparedStatement.setString(1, ob.getValue());
             preparedStatement.setInt(2, ob.getId());
             preparedStatement.execute();
@@ -45,7 +45,7 @@ public class DaoDelStatus implements CarRentInterface<DelStatus> {
     @Override
     public void delete(int id) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("DELETE FROM del_status WHERE id=?");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("DELETE FROM status WHERE id=?");
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -55,17 +55,20 @@ public class DaoDelStatus implements CarRentInterface<DelStatus> {
     }
 
     @Override
-    public ResultSet get(int id) {
-        ResultSet resultSet = null;
+    public DelStatus get(int id) {
+        DelStatus delStatus = null;
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM del_status WHERE id=?");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM status WHERE id=?");
             preparedStatement.setInt(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                delStatus = new DelStatus(resultSet.getInt(1), resultSet.getString(2));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-        return resultSet;
+        return delStatus;
     }
 }
