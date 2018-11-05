@@ -1,13 +1,8 @@
 package com.home.homework13.main;
 
-import com.home.homework13.dao.*;
 import com.home.homework13.database.DB;
-import com.home.homework13.database.DBwork;
-import com.home.homework13.entity.*;
 import com.home.homework13.gui.Authorization;
 import com.home.homework13.gui.StartFrame;
-
-import java.sql.ResultSet;
 
 public class Main {
 
@@ -15,8 +10,8 @@ public class Main {
 
         DB db = new DB("jdbc:mysql://127.0.0.1/", "car_rent", "root", "root");
 
-        /*new StartFrame();*/
-        new Authorization();
+        new StartFrame();
+        /*new Authorization();*/
 
 
 
