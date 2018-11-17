@@ -19,12 +19,11 @@ public class DaoUser implements CarRentInterface<User> {
     @Override
     public void insert(User ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO user VALUES(?,?, ?, ?, ?)");
-            preparedStatement.setInt(1, ob.getId() );
-            preparedStatement.setString(2, ob.getLogin());
-            preparedStatement.setString(3, ob.getPassword());
-            preparedStatement.setInt(4, ob.getRole());
-            preparedStatement.setInt(5, ob.getDelStatus());
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO user (login, password, role, status) VALUES(?, ?, ?, ?)");
+            preparedStatement.setString(1, ob.getLogin());
+            preparedStatement.setString(2, ob.getPassword());
+            preparedStatement.setInt(3, ob.getRole());
+            preparedStatement.setInt(4, ob.getDelStatus());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,4 +73,23 @@ public class DaoUser implements CarRentInterface<User> {
 
         return user;
     }
+
+    public User findByLoginAndPassword(String login, String password){
+        User user = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user WHERE login=? AND password=?");
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getInt(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return user;
+    }
+
 }

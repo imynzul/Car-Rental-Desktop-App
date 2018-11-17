@@ -1,5 +1,10 @@
 package com.home.homework13.gui;
 
+import com.home.homework13.dao.DaoUser;
+import com.home.homework13.database.DB;
+import com.home.homework13.entity.User;
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,8 +17,10 @@ public class Authorization extends JFrame {
     private JPasswordField password;
     private JLabel loginLabel, passwordlabel;
     private JButton enter, registration;
+    private DB db;
 
-    public Authorization(){
+    public Authorization(DB db){
+        this.db = db;
         setSize(300, 300);
         setTitle("Авторизация");
         setLocationRelativeTo(null);
@@ -47,16 +54,75 @@ public class Authorization extends JFrame {
         panel.add(registration);
 
         add(panel);
+
     }
 
     public void activation(){
         registration.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Registration();
+                new Registration(db);
                 dispose();
             }
         });
 
+        enter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DaoUser daoUser = new DaoUser(db);
+                User user = daoUser.findByLoginAndPassword(login.getText(), String.valueOf(password.getPassword()));
+                User user2 = checkDelStatus(user);
+                if(user2 != null){
+                    checkRole(user);
+                }
+
+
+            }
+        });
+
     }
+
+   public User checkDelStatus(User user){
+        if(user != null){
+            switch(user.getDelStatus()){
+                case 1:
+                    dispose();
+                    return user;
+                case 2:
+                   JOptionPane.showMessageDialog(panel, "Пользователь заблокирован", "ACCESS DENIED", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case 3:
+                    JOptionPane.showMessageDialog(panel, "Пользоваетль удален", "ACCESS DENIED", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case 4:
+                    JOptionPane.showMessageDialog(panel, "Пользователь находится в архиве", "ACCESS DENIED", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+
+            }
+        }
+
+
+       return null;
+   }
+
+   public static void checkRole(User user){
+        if(user != null){
+            switch(user.getRole()){
+                case 1:
+                    new FrameAdmin();
+                    break;
+                case 2:
+                    new FrameClient();
+                    break;
+                case 3:
+                    new FrameModerator();
+                    break;
+            }
+        }
+
+   }
+
+
+
+
 }

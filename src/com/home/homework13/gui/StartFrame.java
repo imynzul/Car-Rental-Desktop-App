@@ -1,5 +1,8 @@
 package com.home.homework13.gui;
 
+import com.home.homework13.database.DB;
+import com.home.homework13.database.DBwork;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,10 +33,10 @@ import java.awt.event.ActionListener;
         public void initComponents(){
             panel = new JPanel();
 
-            url = new JTextField(25);
-            login = new JTextField(25);
-            name = new JTextField(25);
-            password = new JPasswordField(25);
+            url = new JTextField("jdbc:mysql://127.0.0.1/",25);
+            name = new JTextField("car_rent",25);
+            login = new JTextField("root",25);
+            password = new JPasswordField("root",25);
 
             labelUrl = new JLabel("Путь");
             labelName = new JLabel("Имя");
@@ -65,12 +68,28 @@ import java.awt.event.ActionListener;
         }
 
         public void activation(){
+
             create.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new Test();
-                    dispose();
+                    DBwork.createDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
 
+                }
+            });
+
+            delete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DBwork.deleteDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
+                }
+            });
+
+            connect.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DB db = new DB(url.getText(), name.getText(), login.getText(), String.valueOf(password.getPassword()));
+                    new Authorization(db);
+                    dispose();
                 }
             });
 

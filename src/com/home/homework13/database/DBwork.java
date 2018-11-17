@@ -2,8 +2,9 @@ package com.home.homework13.database;
 
 public class DBwork {
     public static void createDB(String url, String name, String login, String password ){
-        DB db = new DB(url, name, login, password);
-
+        DB db = new DB(url, "", login, password);
+        db.update("CREATE DATABASE " + name);
+        db.update("USE " + name);
         db.update("CREATE TABLE status(id INT AUTO_INCREMENT," +
                 "value VARCHAR(15) NOT NULL," +
                 "PRIMARY KEY (id));");
@@ -33,7 +34,8 @@ public class DBwork {
         db.update("INSERT INTO user (login, password, role, status) VALUES ('imynzul@gmail.com', '1234', '1', '1')," +
                 "('k.chertovich@mail.ru', '5678', '1', '4')," +
                 "('alexm@yandex.com', '1357', '2', '3')," +
-                "('tanya@mail.inbox', '0864', '3', '2')");
+                "('tanya@mail.inbox', '0864', '3', '2')," +
+                "('eugene', '0987', '2', '1')");
         db.update("INSERT INTO auto (model) VALUES ('Toyota'), ('Mercedez'), ('BMW'), ('Mazda'), ('Volvo')");
         db.update("INSERT INTO orders (user_id, passport_number, auto) VALUES ('1', 'ty5674', '4')," +
                 "('2', 'gh5643', '3')," +
@@ -44,12 +46,9 @@ public class DBwork {
     }
 
     public static void deleteDB(String url, String name, String login, String password){
-        DB db = new DB(url, name, login, password);
+        DB db = new DB(url, "", login, password);
 
-        db.update("DROP TABLE orders");
-        db.update("DROP TABLE auto");
-        db.update("DROP TABLE user");
-        db.update("DROP TABLE role");
-        db.update("DROP TABLE status");
+        db.update("DROP DATABASE car_rent");
+
     }
 }
