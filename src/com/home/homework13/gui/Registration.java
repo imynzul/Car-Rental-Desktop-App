@@ -69,9 +69,18 @@ public class Registration extends JFrame {
                 int role = in.nextInt();
                 User newUser = new User(login.getText(), String.valueOf(password.getPassword()), role, 1);
                 DaoUser daoUser = new DaoUser(db);
-                daoUser.insert(newUser);
-                dispose();
-                Authorization.checkRole(newUser);
+
+                User oldUser = daoUser.checkLogin(newUser);
+
+                if(oldUser == null){
+                    daoUser.insert(newUser);
+                    dispose();
+                    Authorization.checkRoleAndEnter(newUser);
+                }else{
+                    JOptionPane.showMessageDialog(panel, "Логин уже существует", "INSERT NEW LOGIN", JOptionPane.ERROR_MESSAGE);
+                }
+
+
             }
         });
 

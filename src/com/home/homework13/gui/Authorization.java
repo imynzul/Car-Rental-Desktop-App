@@ -73,7 +73,7 @@ public class Authorization extends JFrame {
                 User user = daoUser.findByLoginAndPassword(login.getText(), String.valueOf(password.getPassword()));
                 User user2 = checkDelStatus(user);
                 if(user2 != null){
-                    checkRole(user);
+                    checkRoleAndEnter(user);
                 }
 
 
@@ -105,7 +105,7 @@ public class Authorization extends JFrame {
        return null;
    }
 
-   public static void checkRole(User user){
+   public static void checkRoleAndEnter(User user){
         if(user != null){
             switch(user.getRole()){
                 case 1:

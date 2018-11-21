@@ -92,4 +92,20 @@ public class DaoUser implements CarRentInterface<User> {
         return user;
     }
 
+    public User checkLogin(User ob){
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user WHERE login=?");
+            preparedStatement.setString(1, ob.getLogin());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                return ob;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
 }
