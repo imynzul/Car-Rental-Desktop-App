@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Scanner;
 
 public class Registration extends JFrame {
@@ -19,6 +21,8 @@ public class Registration extends JFrame {
     private JLabel loginLabel, passwordLabel, password_confLabel;
     private JButton enter;
     private DB db;
+
+    private JCheckBox admin, client, moderator; //в работе
 
     public Registration(DB db){
         this.db = db;
@@ -41,6 +45,10 @@ public class Registration extends JFrame {
         password = new JPasswordField(33);
         password_conf = new JPasswordField(33);
 
+        admin = new JCheckBox("Админ"); //в работе
+        client = new JCheckBox("Клиент");  //в работе
+        moderator = new JCheckBox("Модератор");  //в работе
+
         loginLabel = new JLabel("Логин");
         passwordLabel = new JLabel("Пароль");
         password_confLabel = new JLabel("Повторите пароль");
@@ -54,7 +62,14 @@ public class Registration extends JFrame {
         panel.add(password);
         panel.add(password_confLabel);
         panel.add(password_conf);
+
+        panel.add(admin);  //в работе
+        panel.add(client);  //в работе
+        panel.add(moderator);  //в работе
+
         panel.add(enter);
+
+
 
         add(panel);
 
@@ -64,26 +79,60 @@ public class Registration extends JFrame {
         enter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Scanner in = new Scanner(System.in);
-                System.out.println("Введите роль для нового пользователя! 1 - админ, 2 - клиент, 3 - модератор");
-                int role = in.nextInt();
-                User newUser = new User(login.getText(), String.valueOf(password.getPassword()), role, 1);
                 DaoUser daoUser = new DaoUser(db);
-
-                User oldUser = daoUser.checkLogin(newUser);
-
-                if(oldUser == null){
-                    daoUser.insert(newUser);
-                    dispose();
-                    Authorization.checkRoleAndEnter(newUser);
+                boolean validationLogin = daoUser.validationLogin(login.getText());
+                boolean validationPassword = daoUser.validationPassword(String.valueOf(password.getPassword()));
+                if(validationLogin == true && validationPassword == true){
+                    User userLoginExist = new User(login.getText());
+                    boolean check = daoUser.checkLogin(userLoginExist);
+                    if(check == false){
+                        int role = chooseNewUserRole();
+                        User newUser = new User(login.getText(), String.valueOf(password.getPassword()), role, 1);
+                        daoUser.insert(newUser);
+                        dispose();
+                        CheckRoleAndEnter(newUser);
+                    }else{
+                        JOptionPane.showMessageDialog(panel, "Логин уже существует", "INSERT NEW LOGIN", JOptionPane.ERROR_MESSAGE);
+                    }
                 }else{
-                    JOptionPane.showMessageDialog(panel, "Логин уже существует", "INSERT NEW LOGIN", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Логин или пароль заполнены неверно. Длина логина/пароля должна быть больше 2 и меньше 30 символов.", "INSERT NEW LOGIN OR PASSWORD", JOptionPane.ERROR_MESSAGE);
                 }
+
 
 
             }
         });
 
+    }
+
+    public void CheckRoleAndEnter(User user){
+        if(user != null){
+            switch(user.getRole()){
+                case 1:
+                    new FrameAdmin(db);
+                    break;
+                case 2:
+                    new FrameClient(db);
+                    break;
+                case 3:
+                    new FrameModerator(db);
+                    break;
+            }
+        }
+
+    }
+
+    public int chooseNewUserRole(){
+        if(admin.isSelected()){
+            return 1;
+        }
+        if(client.isSelected()){
+            return 2;
+        }
+        if(moderator.isSelected()){
+            return 3;
+        }
+        return 0;
     }
 
 }

@@ -34,9 +34,12 @@ public class DaoUser implements CarRentInterface<User> {
     @Override
     public void update(User ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE user SET login=? WHERE id=?");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE user SET login=?, password=?, role=?, status=? WHERE id=?");
             preparedStatement.setString(1, ob.getLogin());
-            preparedStatement.setInt(2, ob.getId());
+            preparedStatement.setString(2, ob.getPassword());
+            preparedStatement.setInt(3, ob.getRole());
+            preparedStatement.setInt(4, ob.getDelStatus());
+            preparedStatement.setInt(5, ob.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,7 +66,7 @@ public class DaoUser implements CarRentInterface<User> {
             PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user WHERE id=?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getInt(5));
             }
         } catch (SQLException e) {
@@ -74,14 +77,28 @@ public class DaoUser implements CarRentInterface<User> {
         return user;
     }
 
-    public User findByLoginAndPassword(String login, String password){
+    public ResultSet getAll() {
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user");
+            resultSet = preparedStatement.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return resultSet;
+    }
+
+    public User findByLoginAndPassword(String login, String password) {
         User user = null;
         try {
             PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user WHERE login=? AND password=?");
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getInt(5));
             }
         } catch (SQLException e) {
@@ -92,20 +109,33 @@ public class DaoUser implements CarRentInterface<User> {
         return user;
     }
 
-    public User checkLogin(User ob){
+    public boolean checkLogin(User ob) {
         try {
             PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user WHERE login=?");
             preparedStatement.setString(1, ob.getLogin());
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                return ob;
+            if (resultSet.next()) {
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
-        return null;
+        return false;
     }
 
+    public boolean validationLogin(String login) {
+        if (login.length() > 2 && login.length() < 30) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validationPassword(String password) {
+        if (password.length() > 2 && password.length() < 30) {
+            return true;
+        }
+        return false;
+    }
 }

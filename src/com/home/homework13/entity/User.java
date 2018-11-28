@@ -25,11 +25,22 @@ public class User {
         this.delStatus = delStatus;
     }
 
-    public User() {
+    public User(String login, String password, int delStatus) {
+        this.login = login;
+        this.password = password;
+        this.delStatus = delStatus;
+    }
+
+    public User(Integer integer) {
     }
 
     public User(String login, String password){
+        this.login = login;
+        this.password = password;
+    }
 
+    public User(String login){
+        this.login = login;
     }
 
     @Override
