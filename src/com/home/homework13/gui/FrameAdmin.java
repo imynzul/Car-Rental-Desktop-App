@@ -15,7 +15,7 @@ public class FrameAdmin extends JFrame {
     private Table table;
     private JScrollPane scroll;
     private DB db;
-    private JButton update;
+    private JButton update, back;
 
 
     public FrameAdmin(DB db){
@@ -35,17 +35,20 @@ public class FrameAdmin extends JFrame {
         panel = new JPanel();
 
         update = new JButton("Обновить");
+        back = new JButton("Назад");
         update.setPreferredSize(new Dimension(200, 50));
+        back.setPreferredSize(new Dimension(150, 35));
+
 
         DaoUser daoUser = new DaoUser(db);
         table = new Table(daoUser.getAll());
         scroll = new JScrollPane(table);
-        scroll.setPreferredSize(new Dimension(800, 200));
+        scroll.setPreferredSize(new Dimension(920, 200));
 
-        panel.add(scroll);
         panel.add(update);
+        panel.add(scroll);
 
-
+        panel.add(back);
 
         add(panel);
     }
@@ -63,6 +66,14 @@ public class FrameAdmin extends JFrame {
                 updateTable();
 
 
+            }
+        });
+
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Authorization(db);
+                dispose();
             }
         });
 

@@ -69,7 +69,19 @@ public class DaoAuto implements CarRentInterface<Auto> {
             e.printStackTrace();
         }
 
-
         return auto;
+    }
+
+    public ResultSet getAll(){
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM auto");
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return resultSet;
     }
 }

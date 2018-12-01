@@ -138,4 +138,13 @@ public class DaoUser implements CarRentInterface<User> {
         }
         return false;
     }
+
+    public boolean passwordsIdentity(String password, String password2){
+        if(password.equals(password2)){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 }

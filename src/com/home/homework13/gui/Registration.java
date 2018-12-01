@@ -63,9 +63,9 @@ public class Registration extends JFrame {
         panel.add(password_confLabel);
         panel.add(password_conf);
 
-        panel.add(admin);  //в работе
-        panel.add(client);  //в работе
-        panel.add(moderator);  //в работе
+        panel.add(admin);
+        panel.add(client);
+        panel.add(moderator);
 
         panel.add(enter);
 
@@ -86,11 +86,16 @@ public class Registration extends JFrame {
                     User userLoginExist = new User(login.getText());
                     boolean check = daoUser.checkLogin(userLoginExist);
                     if(check == false){
-                        int role = chooseNewUserRole();
-                        User newUser = new User(login.getText(), String.valueOf(password.getPassword()), role, 1);
-                        daoUser.insert(newUser);
-                        dispose();
-                        CheckRoleAndEnter(newUser);
+                        boolean passwordsIdentity = daoUser.passwordsIdentity(String.valueOf(password.getPassword()), String.valueOf(password_conf.getPassword()));
+                        if(passwordsIdentity == true) {
+                            int role = chooseNewUserRole();
+                            User newUser = new User(login.getText(), String.valueOf(password.getPassword()), role, 1);
+                            daoUser.insert(newUser);
+                            dispose();
+                            CheckRoleAndEnter(newUser);
+                        }else{
+                            JOptionPane.showMessageDialog(panel, "Пароли не совпадают", "CHECK PASSWORDS", JOptionPane.ERROR_MESSAGE);
+                        }
                     }else{
                         JOptionPane.showMessageDialog(panel, "Логин уже существует", "INSERT NEW LOGIN", JOptionPane.ERROR_MESSAGE);
                     }
