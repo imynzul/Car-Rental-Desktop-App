@@ -19,6 +19,11 @@ public class UserOrder {
     public UserOrder() {
     }
 
+    public UserOrder(int userId, int auto){
+        this.userId = userId;
+        this.auto = auto;
+    }
+
 
 
     @Override

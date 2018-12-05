@@ -110,14 +110,15 @@ public class Registration extends JFrame {
 
     }
 
-    public void CheckRoleAndEnter(User user){
-        if(user != null){
-            switch(user.getRole()){
+    public void CheckRoleAndEnter(User newUser){
+        if(newUser != null){
+            switch(newUser.getRole()){
                 case 1:
                     new FrameAdmin(db);
                     break;
                 case 2:
-                    new FrameClient(db);
+                    new Authorization(db);
+                    JOptionPane.showMessageDialog(panel, "Выполните вход в систему, используя ваш логин и пароль", "ENTER LOGIN AND PASSWORD", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case 3:
                     new FrameModerator(db);

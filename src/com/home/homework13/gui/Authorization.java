@@ -112,7 +112,7 @@ public class Authorization extends JFrame {
                     new FrameAdmin(db);
                     break;
                 case 2:
-                    new FrameClient(db);
+                    new FrameClient(db, user);
                     break;
                 case 3:
                     new FrameModerator(db);

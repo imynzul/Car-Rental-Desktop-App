@@ -25,13 +25,13 @@ public class User {
         this.delStatus = delStatus;
     }
 
-    public User(String login, String password, int delStatus) {
-        this.login = login;
-        this.password = password;
-        this.delStatus = delStatus;
-    }
+
 
     public User(Integer integer) {
+    }
+
+    public User(){
+
     }
 
     public User(String login, String password){

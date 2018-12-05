@@ -24,23 +24,25 @@ public class DBwork {
                 "PRIMARY KEY(id))");
         db.update("CREATE TABLE orders(id INT AUTO_INCREMENT," +
                 "user_id INT NOT NULL," +
-                "passport_number TEXT NOT NULL," +
+
                 "auto INT NOT NULL," +
                 "PRIMARY KEY(id)," +
                 "FOREIGN KEY(user_id) REFERENCES user(id)," +
                 "FOREIGN KEY(auto) REFERENCES auto(id))");
         db.update("INSERT INTO status (value) VALUES ('active'), ('blocked'), ('deleted'), ('archived')");
         db.update("INSERT INTO role (value) VALUES ('admin'), ('client'), ('moderator')");
-        db.update("INSERT INTO user (login, password, role, status) VALUES ('imynzul@gmail.com', '1234', '1', '1')," +
-                "('k.chertovich@mail.ru', '5678', '1', '4')," +
-                "('alexm@yandex.com', '1357', '2', '3')," +
-                "('tanya@mail.inbox', '0864', '3', '2')," +
+        db.update("INSERT INTO user (login, password, role, status) VALUES ('imynzul@gmail.com', '1234', '2', '1')," +
+                "('k.chertovich@mail.ru', '5678', '2', '1')," +
+                "('alexm@yandex.com', '1357', '2', '1')," +
+                "('tanya@mail.inbox', '0864', '2', '1')," +
                 "('eugene', '0987', '2', '1')");
         db.update("INSERT INTO auto (model) VALUES ('Toyota'), ('Mercedez'), ('BMW'), ('Mazda'), ('Volvo')");
-        db.update("INSERT INTO orders (user_id, passport_number, auto) VALUES ('1', 'ty5674', '4')," +
-                "('2', 'gh5643', '3')," +
-                "('3', 'mp9876', '2')," +
-                "('4', 'nb9045', '1')");
+        db.update("INSERT INTO orders (user_id, auto) VALUES ('1', '4')," +
+                "('2', '3')," +
+                "('3', '2')," +
+                "('4', '1')," +
+                "('3', '3')," +
+                "('1', '1')");
 
 
     }

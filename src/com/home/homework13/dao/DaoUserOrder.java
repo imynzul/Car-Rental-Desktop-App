@@ -18,11 +18,9 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     @Override
     public void insert(UserOrder ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO orders VALUES (?,?, ?, ?)");
-            preparedStatement.setInt(1, ob.getId());
-            preparedStatement.setInt(2, ob.getUserId());
-            preparedStatement.setString(3, ob.getPassportNumber());
-            preparedStatement.setInt(4, ob.getAuto());
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("INSERT INTO orders (user_id, auto) VALUES (?, ?)");
+            preparedStatement.setInt(1, ob.getUserId());
+            preparedStatement.setInt(2, ob.getAuto());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,8 +31,8 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     @Override
     public void update(UserOrder ob) {
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE orders SET passport_number=? WHERE id=?");
-            preparedStatement.setString(1, ob.getPassportNumber());
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("UPDATE orders SET auto=? WHERE id=?");
+            preparedStatement.setInt(1, ob.getAuto());
             preparedStatement.setInt(2, ob.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -72,5 +70,17 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
 
 
         return userOrder;
+    }
+
+    public ResultSet getUserOrder(int userId){
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT model FROM orders, auto WHERE user_id=? AND orders.auto=auto.id ");
+            preparedStatement.setInt(1, userId);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet;
     }
 }

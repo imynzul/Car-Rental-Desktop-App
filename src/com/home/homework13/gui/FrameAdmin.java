@@ -83,9 +83,10 @@ public class FrameAdmin extends JFrame {
         DaoUser daoUser = new DaoUser(db);
         table = new Table(daoUser.getAll());
         scroll = new JScrollPane(table);
-        scroll.setPreferredSize(new Dimension(800, 200));
+        scroll.setPreferredSize(new Dimension(920, 200));
+        panel.add(update);
         panel.add(scroll);
-
+        panel.add(back);
         panel.updateUI();
 
     }
