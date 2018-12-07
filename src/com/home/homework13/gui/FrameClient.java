@@ -3,7 +3,6 @@ package com.home.homework13.gui;
 import com.home.homework13.dao.DaoAuto;
 import com.home.homework13.dao.DaoUserOrder;
 import com.home.homework13.database.DB;
-import com.home.homework13.entity.Auto;
 import com.home.homework13.entity.User;
 import com.home.homework13.entity.UserOrder;
 
@@ -18,9 +17,9 @@ public class FrameClient extends JFrame {
     private JPanel panel;
     private Table table, table2;
     private JScrollPane scroll, scrollClientOrder;
-    private JButton back, makeOrder;
+    private JButton back, makeOrder, deleteOrder;
     private User user;
-    private JLabel tableAuto, clientOrders;
+    private JLabel labelTableAuto, labelClientOrders;
 
     public FrameClient(DB db, User user){
         this.user = user;   //!!!
@@ -28,6 +27,7 @@ public class FrameClient extends JFrame {
         setSize(400, 700);  //задаем размеры окна
         setTitle("Страница Клиента");  //даем название странице - заголовок
         setLocationRelativeTo(null);  //помещаем страницу в центр
+        setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);  //по нажатию на крестик страница будет закрываться
         initComponents();  //добавляем все компоенты на окна, компоненты мы создаем ниже
         activation();  //активируем наши компоненты, активацию создаем ниже
@@ -43,8 +43,11 @@ public class FrameClient extends JFrame {
         makeOrder = new JButton("Заказать");
         makeOrder.setPreferredSize(new Dimension(350, 35));
 
-        tableAuto = new JLabel("Список автомобилей");
-        clientOrders = new JLabel("Ваши заказы");
+        deleteOrder = new JButton("Удалить заказ");
+        deleteOrder.setPreferredSize(new Dimension(350, 35));
+
+        labelTableAuto = new JLabel("Список автомобилей");
+        labelClientOrders = new JLabel("Ваши заказы");
 
         DaoAuto daoAuto = new DaoAuto(db);  //вызываем класс DaoAuto для дальнейшего использовапния методов в DaoAuto
         table = new Table(daoAuto.getAll());  //создаем таблицу и помещаем в таблицу все содержимое таблицы Auto с помощью метода getAll, который находится в классе DaoAuto
@@ -53,16 +56,18 @@ public class FrameClient extends JFrame {
 
         DaoUserOrder daoUserOrder = new DaoUserOrder(db);
         table2 = new Table(daoUserOrder.getUserOrder(user.getId()));  //!!!
+        table2.getColumnModel().getColumn(0).setMinWidth(0);
+        table2.getColumnModel().getColumn(0).setMaxWidth(0);
         scrollClientOrder = new JScrollPane(table2);
         scrollClientOrder.setPreferredSize(new Dimension(350, 200));
 
         panel.add(back);  //помещаем кнопку назад под таблицей
-        panel.add(tableAuto);
+        panel.add(labelTableAuto);
         panel.add(scroll);  //помещаем скролл на панельку
         panel.add(makeOrder);
-        panel.add(clientOrders);
+        panel.add(labelClientOrders);
         panel.add(scrollClientOrder);
-
+        panel.add(deleteOrder);
 
         add(panel);  //добавляем панельку на окно
     }
@@ -78,14 +83,25 @@ public class FrameClient extends JFrame {
         makeOrder.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DaoUserOrder(db).insert(new UserOrder(user.getId(),
-                        Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 0)))));
-                updateTable();
+                if(table.getSelectedRow() != -1){
+                    new DaoUserOrder(db).insert(new UserOrder(user.getId(),
+                            Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 0)))));
+                    updateTable();
+                }
+                else{
+                    JOptionPane.showMessageDialog(panel, "Ничего не выбрано!", "Empty order", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
-
-
-
+        deleteOrder.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (table2.getSelectedRow() != -1){
+                new DaoUserOrder(db).delete(Integer.valueOf(String.valueOf(table2.getValueAt(table2.getSelectedRow(), 0))));
+                updateTable();
+             }
+            }
+        });
     }
 
     public void updateTable(){
@@ -99,17 +115,18 @@ public class FrameClient extends JFrame {
 
         DaoUserOrder daoUserOrder = new DaoUserOrder(db);
         table2 = new Table(daoUserOrder.getUserOrder(user.getId()));  //!!!
+        table2.getColumnModel().getColumn(0).setMinWidth(0);
+        table2.getColumnModel().getColumn(0).setMaxWidth(0);
         scrollClientOrder = new JScrollPane(table2);
         scrollClientOrder.setPreferredSize(new Dimension(350, 200));
 
         panel.add(back);  //помещаем кнопку назад под таблицей
-        panel.add(tableAuto);
+        panel.add(labelTableAuto);
         panel.add(scroll);  //помещаем скролл на панельку
         panel.add(makeOrder);
-        panel.add(clientOrders);
+        panel.add(labelClientOrders);
         panel.add(scrollClientOrder);
+        panel.add(deleteOrder);
         panel.updateUI();
-
     }
-
 }

@@ -75,7 +75,7 @@ public class DaoUserOrder implements CarRentInterface<UserOrder> {
     public ResultSet getUserOrder(int userId){
         ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT model FROM orders, auto WHERE user_id=? AND orders.auto=auto.id ");
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT orders.id,  auto.model FROM orders, auto WHERE orders.user_id=? AND orders.auto=auto.id ");
             preparedStatement.setInt(1, userId);
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException e) {

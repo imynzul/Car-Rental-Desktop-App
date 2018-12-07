@@ -4,14 +4,10 @@ import com.home.homework13.dao.DaoUser;
 import com.home.homework13.database.DB;
 import com.home.homework13.entity.User;
 
-import javax.security.auth.login.LoginContext;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.Scanner;
 
 public class Registration extends JFrame {
 
@@ -100,7 +96,7 @@ public class Registration extends JFrame {
                         JOptionPane.showMessageDialog(panel, "Логин уже существует", "INSERT NEW LOGIN", JOptionPane.ERROR_MESSAGE);
                     }
                 }else{
-                    JOptionPane.showMessageDialog(panel, "Логин или пароль заполнены неверно. Длина логина/пароля должна быть больше 2 и меньше 30 символов.", "INSERT NEW LOGIN OR PASSWORD", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(panel, "Логин и пароль должны содержать больше 2 и меньше 30 символов. Также не должны содержать пробелы.", "INSERT NEW LOGIN OR PASSWORD", JOptionPane.ERROR_MESSAGE);
                 }
 
 

@@ -72,8 +72,7 @@ import java.awt.event.ActionListener;
             create.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DBwork.createDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
-
+                    DBwork.createDB(url.getText(), name.getText(), login.getText(), String.valueOf(password.getPassword()));
                 }
             });
 
@@ -81,7 +80,7 @@ import java.awt.event.ActionListener;
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     DBwork.deleteDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
-                }
+            }
             });
 
             connect.addActionListener(new ActionListener() {

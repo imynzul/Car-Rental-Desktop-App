@@ -57,15 +57,14 @@ public class FrameAdmin extends JFrame {
         update.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                new DaoUser(db).update(new User(Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 0))),
-                        String.valueOf(table.getValueAt(table.getSelectedRow(), 1)),
-                        String.valueOf(table.getValueAt(table.getSelectedRow(), 2)),
-                        Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 3))),
-                        Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 4)))));
-                updateTable();
-
-
+                if (table.getSelectedRow() != -1) {
+                    new DaoUser(db).update(new User(Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 0))),
+                            String.valueOf(table.getValueAt(table.getSelectedRow(), 1)),
+                            String.valueOf(table.getValueAt(table.getSelectedRow(), 2)),
+                            Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 3))),
+                            Integer.valueOf(String.valueOf(table.getValueAt(table.getSelectedRow(), 4)))));
+                    updateTable();
+                }
             }
         });
 

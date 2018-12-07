@@ -3,7 +3,6 @@ package com.home.homework13.gui;
 import com.home.homework13.dao.DaoUser;
 import com.home.homework13.database.DB;
 import com.home.homework13.entity.User;
-import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;

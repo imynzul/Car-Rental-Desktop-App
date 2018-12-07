@@ -4,6 +4,7 @@ import com.home.homework13.database.DB;
 import com.home.homework13.entity.User;
 
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,6 +47,7 @@ public class DaoUser implements CarRentInterface<User> {
         }
 
     }
+
 
     @Override
     public void delete(int id) {
@@ -120,20 +122,39 @@ public class DaoUser implements CarRentInterface<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
 
-
+    public boolean checkLoginByString(String login){
+        try {
+            PreparedStatement preparedStatement = db.getConnection().prepareStatement("SELECT * FROM user WHERE login=?");
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     public boolean validationLogin(String login) {
         if (login.length() > 2 && login.length() < 30) {
+            if(login.contains(" ")){
+                return false;
+                }
             return true;
-        }
+            }
         return false;
-    }
+        }
+
 
     public boolean validationPassword(String password) {
         if (password.length() > 2 && password.length() < 30) {
+            if (password.contains(" ")){
+                return false;
+            }
             return true;
         }
         return false;

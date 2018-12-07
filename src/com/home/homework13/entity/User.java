@@ -11,12 +11,15 @@ public class User {
     private int delStatus;
 
     public User(int id, String login, String password, int role, int delStatus) {
+        if (role <= 3 && delStatus <= 4){
         this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;
         this.delStatus = delStatus;
+        }
     }
+
 
     public User(String login, String password, int role, int delStatus) {
         this.login = login;
@@ -24,6 +27,7 @@ public class User {
         this.role = role;
         this.delStatus = delStatus;
     }
+
 
 
 
