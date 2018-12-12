@@ -11,31 +11,45 @@ import java.awt.event.ActionListener;
 
 public class Registration extends JFrame {
 
-    private JPanel panel;
+    private JPanel panelBackground, panel, panel1, panel2;
     private JTextField login;
     private JPasswordField password, password_conf;
     private JLabel loginLabel, passwordLabel, password_confLabel;
     private JButton enter;
     private DB db;
+    private JMenuBar menuBar;
+    private JMenuItem item1;
 
-    private JCheckBox admin, client, moderator; //в работе
+    private JCheckBox admin, client, moderator;
 
     public Registration(DB db){
         this.db = db;
-        setSize(400, 300);
+        setSize(400, 250);
         setTitle("Регистрация");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
         initComponents();
         activation();
+        initComponentsLocation();
+        initComponentsDesign();
 
         setVisible(true);
-
     }
 
     public void initComponents(){
         panel = new JPanel();
+        panel1 = new JPanel();
+        panel1.setPreferredSize(new Dimension(8, 0));
+        panel2 = new JPanel();
+        panel2.setPreferredSize(new Dimension(8, 0));
+        panelBackground = new JPanel();
+        panelBackground.setLayout(new BorderLayout());
+
+        menuBar = new JMenuBar();
+        menuBar.setPreferredSize(new Dimension(0, 23));
+
+        item1 = new JMenuItem("Назад");
 
         login = new JTextField(33);
         password = new JPasswordField(33);
@@ -65,10 +79,28 @@ public class Registration extends JFrame {
 
         panel.add(enter);
 
+        add(panelBackground);
+    }
 
+    public void initComponentsLocation(){
+        panelBackground.add(panel, BorderLayout.CENTER);
+        panelBackground.add(panel1, BorderLayout.EAST);
+        panelBackground.add(panel2, BorderLayout.WEST);
 
-        add(panel);
+        menuBar.add(item1);
 
+        setJMenuBar(menuBar);
+    }
+
+    public void initComponentsDesign(){
+        panel.setBackground(Color.WHITE);
+        panel1.setBackground(Color.decode("#a6e5ff"));
+        panel2.setBackground(Color.decode("#a6e5ff"));
+
+        item1.setBackground(Color.decode("#fff6a6"));
+
+        menuBar.setBackground(Color.decode("#a6e5ff"));
+        enter.setBackground(Color.decode("#a6e5ff"));
     }
 
     public void activation(){
@@ -98,9 +130,14 @@ public class Registration extends JFrame {
                 }else{
                     JOptionPane.showMessageDialog(panel, "Логин и пароль должны содержать больше 2 и меньше 30 символов. Также не должны содержать пробелы.", "INSERT NEW LOGIN OR PASSWORD", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
 
-
-
+        item1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Authorization(db);
+                dispose();
             }
         });
 
@@ -121,7 +158,6 @@ public class Registration extends JFrame {
                     break;
             }
         }
-
     }
 
     public int chooseNewUserRole(){

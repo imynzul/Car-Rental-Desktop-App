@@ -8,21 +8,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static java.awt.BorderLayout.*;
-
 public class StartFrame extends JFrame {
 
-        private JPanel panelBackground, panel, panel1;
+        private JPanel panelBackground, panel, panel1, panel2;
         private JTextField url, login, name;
         private JPasswordField password;
         private JLabel labelUrl, labelName, labelLogin, labelPassword;
-        private JButton create, delete, connect;
+        private JButton connect;
         private JMenuBar bar;
-        private JMenuItem item1;
+        private JMenuItem item1, item2, item3;
         private JMenu menu;
 
         public StartFrame(){
-            setSize(310,400);
+            setSize(310,290);
             setTitle("Стартовая страница");
             setLocationRelativeTo(null);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -31,6 +29,7 @@ public class StartFrame extends JFrame {
             initComponents();
             activation();
             initComponentsLocation();
+            initComponentsDesign();
 
             setVisible(true);
         }
@@ -39,17 +38,18 @@ public class StartFrame extends JFrame {
             panelBackground = new JPanel();
             panel = new JPanel();
             panel1 = new JPanel();
+            panel2 = new JPanel();
 
             panelBackground.setLayout(new BorderLayout());
-            panel.setBackground(Color.LIGHT_GRAY);
-            panel1.setBackground(Color.DARK_GRAY);
-            panel1.setPreferredSize(new Dimension(0, 10));
 
             bar = new JMenuBar();
+            bar.setPreferredSize(new Dimension(0, 18));
 
-            menu = new JMenu("Файл");
+            menu = new JMenu("Выполнить");
 
             item1 = new JMenuItem("Выйти");
+            item2 = new JMenuItem("Создать БД");
+            item3 = new JMenuItem("Удалить БД");
 
             url = new JTextField("jdbc:mysql://127.0.0.1/",25);
             name = new JTextField("car_rent",25);
@@ -61,16 +61,8 @@ public class StartFrame extends JFrame {
             labelLogin = new JLabel("Логин");
             labelPassword = new JLabel("Пароль");
 
-            create = new JButton("Создать");
-            create.setPreferredSize(new Dimension(280,20));
-            create.setBackground(Color.decode("#85c888"));
-            delete = new JButton("Удалить");
-            delete.setPreferredSize(new Dimension(280, 20));
-            delete.setBackground(Color.decode("#85c888"));
             connect = new JButton("Подключиться");
-            connect.setPreferredSize(new Dimension(280, 20));
-            connect.setBackground(Color.decode("#c89085"));
-
+            connect.setPreferredSize(new Dimension(280, 40));
 
             panel.add(labelUrl);
             panel.add(url);
@@ -81,20 +73,31 @@ public class StartFrame extends JFrame {
             panel.add(labelPassword);
             panel.add(password);
 
-            panel.add(create);
-            panel.add(delete);
             panel.add(connect);
 
-
-
             add(panelBackground);
+        }
+
+        public void initComponentsDesign(){
+
+            panel1.setPreferredSize(new Dimension(5, 0));
+            panel2.setPreferredSize(new Dimension(5, 0));
+
+            panel.setBackground(Color.decode("#999999"));
+            panel1.setBackground(Color.decode("#b6b6b6"));
+            panel2.setBackground(Color.decode("#b6b6b6"));
+            connect.setBackground(Color.decode("#85c888"));
+            bar.setBackground(Color.decode("#c88585"));
         }
 
         public void initComponentsLocation(){
 
             panelBackground.add(panel, BorderLayout.CENTER);
-            panelBackground.add(panel1, BorderLayout.NORTH);
+            panelBackground.add(panel1, BorderLayout.EAST);
+            panelBackground.add(panel2, BorderLayout.WEST);
 
+            menu.add(item2);
+            menu.add(item3);
             menu.add(item1);
             bar.add(menu);
 
@@ -102,20 +105,6 @@ public class StartFrame extends JFrame {
         }
 
         public void activation(){
-
-            create.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    DBwork.createDB(url.getText(), name.getText(), login.getText(), String.valueOf(password.getPassword()));
-                }
-            });
-
-            delete.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    DBwork.deleteDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
-            }
-            });
 
             connect.addActionListener(new ActionListener() {
                 @Override
@@ -133,8 +122,19 @@ public class StartFrame extends JFrame {
                 }
             });
 
+            item2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DBwork.createDB(url.getText(), name.getText(), login.getText(), String.valueOf(password.getPassword()));
+                }
+            });
+
+            item3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    DBwork.deleteDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
+                }
+            });
         }
-
-
     }
 
