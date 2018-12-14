@@ -114,6 +114,9 @@ public class Authorization extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 DaoUser daoUser = new DaoUser(db);
                 User user = daoUser.findByLoginAndPassword(login.getText(), String.valueOf(password.getPassword()));
+                if (user == null){
+                    JOptionPane.showMessageDialog(panel, "Логин или пароль заполнены неверно!", "ACCESS DENIED", JOptionPane.INFORMATION_MESSAGE);
+                }
                 User user2 = checkDelStatus(user);
                 if(user2 != null){
                     CheckRoleAndEnter(user);

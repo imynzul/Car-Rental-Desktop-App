@@ -19,7 +19,6 @@ public class Registration extends JFrame {
     private DB db;
     private JMenuBar menuBar;
     private JMenuItem item1;
-
     private JCheckBox admin, client, moderator;
 
     public Registration(DB db){
@@ -101,6 +100,10 @@ public class Registration extends JFrame {
 
         menuBar.setBackground(Color.decode("#a6e5ff"));
         enter.setBackground(Color.decode("#a6e5ff"));
+
+        admin.setBackground(Color.decode("#FFE500"));
+        client.setBackground(Color.decode("#FFE500"));
+        moderator.setBackground(Color.decode("#FFE500"));
     }
 
     public void activation(){

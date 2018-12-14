@@ -7,6 +7,7 @@ import com.home.homework13.entity.User;
 import com.home.homework13.entity.UserOrder;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,12 +15,17 @@ import java.awt.event.ActionListener;
 public class FrameClient extends JFrame {
 
     private DB db;
-    private JPanel panel;
+    private JPanel panel, panelBackground, panel2;
     private Table table, table2;
     private JScrollPane scroll, scrollClientOrder;
     private JButton back, makeOrder, deleteOrder;
     private User user;
     private JLabel labelTableAuto, labelClientOrders;
+    private JSplitPane split1;
+    private JMenuBar bar;
+    private JMenu menu;
+    private JMenuItem item1, item2, item3;
+
 
     public FrameClient(DB db, User user){
         this.user = user;   //!!!
@@ -31,14 +37,32 @@ public class FrameClient extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);  //по нажатию на крестик страница будет закрываться
         initComponents();  //добавляем все компоенты на окна, компоненты мы создаем ниже
         activation();  //активируем наши компоненты, активацию создаем ниже
+        initComponentsDesign();
 
         setVisible(true);  //делаем окно видимым
     }
 
     public void initComponents(){
+        panelBackground= new JPanel();
+        panelBackground.setLayout(new BorderLayout());
         panel = new JPanel();  //инициализируем панельку, на которую мы будем помещать компоненты страницы
+        panel2 = new JPanel();
+        panel2.setPreferredSize(new Dimension(0, 350));
 
-        back = new JButton("Назад");  //инициализируем кнопку назад, даем ей название
+        bar = new JMenuBar();//
+        bar.setPreferredSize(new Dimension(0,18));//
+
+        menu = new JMenu("Выполнить");//
+
+        item1 = new JMenuItem("Авторизация");//
+        item2 = new JMenuItem("Регистрация");//
+        item3 = new JMenuItem("Выйти");//
+
+        split1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, panel, panel2);
+        split1.setDividerLocation(360);
+        split1.setDividerSize(8);
+
+        back = new JButton("Выйти");  //инициализируем кнопку назад, даем ей название
         back.setPreferredSize(new Dimension(350, 35));  //задем размер кнопке Назад
         makeOrder = new JButton("Заказать");
         makeOrder.setPreferredSize(new Dimension(350, 35));
@@ -51,6 +75,8 @@ public class FrameClient extends JFrame {
 
         DaoAuto daoAuto = new DaoAuto(db);  //вызываем класс DaoAuto для дальнейшего использовапния методов в DaoAuto
         table = new Table(daoAuto.getAll());  //создаем таблицу и помещаем в таблицу все содержимое таблицы Auto с помощью метода getAll, который находится в классе DaoAuto
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
         scroll = new JScrollPane(table);  //инициализируем scroll и помещаем на него нашу таблицу
         scroll.setPreferredSize(new Dimension(350, 200));  //задаем размер скрола
 
@@ -65,11 +91,32 @@ public class FrameClient extends JFrame {
         panel.add(labelTableAuto);
         panel.add(scroll);  //помещаем скролл на панельку
         panel.add(makeOrder);
-        panel.add(labelClientOrders);
-        panel.add(scrollClientOrder);
-        panel.add(deleteOrder);
+        panel2.add(labelClientOrders);
+        panel2.add(scrollClientOrder);
+        panel2.add(deleteOrder);
 
-        add(panel);  //добавляем панельку на окно
+        menu.add(item1);//
+        menu.add(item2);//
+        menu.add(item3);//
+        bar.add(menu);//
+        setJMenuBar(bar);
+
+        panelBackground.add(split1);
+
+        add(panelBackground);  //добавляем панельку на окно
+    }
+
+    public void initComponentsDesign(){
+        panel.setBackground(Color.decode("#CC7D5F"));
+        panel2.setBackground(Color.decode("#9DFF5E"));
+        makeOrder.setBackground(Color.decode("#FFD4C3"));
+        back.setBackground(Color.decode("#7F6A62"));
+
+        deleteOrder.setBackground(Color.decode("#CCFFAA"));
+
+        item1.setBackground(Color.decode("#D1FFBD"));
+        item2.setBackground(Color.decode("#D1FFBD"));
+        item3.setBackground(Color.decode("#7C81B2"));
     }
 
     public void activation(){
@@ -102,19 +149,48 @@ public class FrameClient extends JFrame {
              }
             }
         });
+        item1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Authorization(db);
+                dispose();
+            }
+        });
+        item2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Registration(db);
+                dispose();
+            }
+        });
+        item3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
     public void updateTable(){
-        panel.remove(scroll);
-        panel.remove(scrollClientOrder);
+        panelBackground.remove(split1);
+
+        panel = new JPanel();  //инициализируем панельку, на которую мы будем помещать компоненты страницы
+        panel2 = new JPanel();
+        panel2.setPreferredSize(new Dimension(0, 300));
+
+        split1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, panel, panel2);
+        split1.setDividerLocation(360);
+        split1.setDividerSize(8);
 
         DaoAuto daoAuto = new DaoAuto(db);  //вызываем класс DaoAuto для дальнейшего использовапния методов в DaoAuto
         table = new Table(daoAuto.getAll());  //создаем таблицу и помещаем в таблицу все содержимое таблицы Auto с помощью метода getAll, который находится в классе DaoAuto
+        table.getColumnModel().getColumn(0).setMinWidth(0);
+        table.getColumnModel().getColumn(0).setMaxWidth(0);
         scroll = new JScrollPane(table);  //инициализируем scroll и помещаем на него нашу таблицу
         scroll.setPreferredSize(new Dimension(350, 200));  //задаем размер скрола
 
         DaoUserOrder daoUserOrder = new DaoUserOrder(db);
-        table2 = new Table(daoUserOrder.getUserOrder(user.getId()));  //!!!
+        table2 = new Table(daoUserOrder.getUserOrder(user.getId()));
         table2.getColumnModel().getColumn(0).setMinWidth(0);
         table2.getColumnModel().getColumn(0).setMaxWidth(0);
         scrollClientOrder = new JScrollPane(table2);
@@ -124,9 +200,14 @@ public class FrameClient extends JFrame {
         panel.add(labelTableAuto);
         panel.add(scroll);  //помещаем скролл на панельку
         panel.add(makeOrder);
-        panel.add(labelClientOrders);
-        panel.add(scrollClientOrder);
-        panel.add(deleteOrder);
-        panel.updateUI();
+        panel2.add(labelClientOrders);
+        panel2.add(scrollClientOrder);
+        panel2.add(deleteOrder);
+
+        panelBackground.add(split1);
+
+        initComponentsDesign();
+
+        panelBackground.updateUI();
     }
 }
