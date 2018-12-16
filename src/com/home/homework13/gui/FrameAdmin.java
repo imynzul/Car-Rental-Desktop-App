@@ -11,50 +11,82 @@ import java.awt.event.ActionListener;
 
 public class FrameAdmin extends JFrame {
 
-    private JPanel panel;
+    private JPanel panelBackground, panel, panel1, panel2;
     private Table table;
     private JScrollPane scroll;
     private DB db;
-    private JButton update, back;
+    private JMenuBar menuBar;
+    private JMenu menu;
+    private JMenuItem item1, item2, item3;
+    private JTextArea textArea;
 
 
     public FrameAdmin(DB db){
         this.db = db;
-        setSize(1000, 600);
+        setSize(1000, 480);
         setTitle("Страница Администратора");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         initComponents();
         activation();
+        initComponentsDesign(); //
 
         setVisible(true);
-
     }
 
     public void initComponents(){
+        panelBackground = new JPanel(); //
+        panelBackground.setLayout(new BorderLayout()); //
         panel = new JPanel();
+        panel1 = new JPanel(); //
+        panel1.setPreferredSize(new Dimension(20, 0)); //
+        panel2 = new JPanel(); //
+        panel2.setPreferredSize(new Dimension(20, 0)); //
 
-        update = new JButton("Обновить");
-        back = new JButton("Назад");
-        update.setPreferredSize(new Dimension(200, 50));
-        back.setPreferredSize(new Dimension(150, 35));
+        menuBar = new JMenuBar(); //
+        menuBar.setPreferredSize(new Dimension(0, 18)); //
+        menu = new JMenu("Выполнить"); //
+        item1 = new JMenuItem("Обновить"); //
+        item2 = new JMenuItem("Назад"); //
+        item3 = new JMenuItem("Выйти"); //
 
+        textArea = new JTextArea();
+        textArea.setPreferredSize(new Dimension(600, 200));
 
         DaoUser daoUser = new DaoUser(db);
         table = new Table(daoUser.getAll());
         scroll = new JScrollPane(table);
         scroll.setPreferredSize(new Dimension(920, 200));
 
-        panel.add(update);
+        panelBackground.add(panel, BorderLayout.CENTER); //
+        panelBackground.add(panel1, BorderLayout.EAST); //
+        panelBackground.add(panel2, BorderLayout.WEST); //
+
+        menu.add(item1); //
+        menu.add(item2); //
+        menu.add(item3); //
+        menuBar.add(menu); //
+        setJMenuBar(menuBar); //
+
         panel.add(scroll);
+        panel.add(textArea); //
 
-        panel.add(back);
+        add(panelBackground); //
+    }
 
-        add(panel);
+    public void initComponentsDesign(){
+        panel.setBackground(Color.decode("#FF5700")); //
+        panel1.setBackground(Color.decode("#FF6819")); //
+        panel2.setBackground(Color.decode("#FF6819")); //
+        menuBar.setBackground(Color.decode("#00FFF1")); //
+        item1.setBackground(Color.decode("#2CB2AB"));
+        item2.setBackground(Color.decode("#B23D00"));
+        item3.setBackground(Color.LIGHT_GRAY);
+        textArea.setBackground(Color.decode("#FFF98F"));
     }
 
     public void activation(){
-        update.addActionListener(new ActionListener() {
+        item1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (table.getSelectedRow() != -1) {
@@ -68,7 +100,7 @@ public class FrameAdmin extends JFrame {
             }
         });
 
-        back.addActionListener(new ActionListener() {
+        item2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Authorization(db);
@@ -76,17 +108,24 @@ public class FrameAdmin extends JFrame {
             }
         });
 
+        item3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
     }
     public void updateTable(){
         panel.remove(scroll);
+        panel.remove(textArea);
         DaoUser daoUser = new DaoUser(db);
         table = new Table(daoUser.getAll());
         scroll = new JScrollPane(table);
         scroll.setPreferredSize(new Dimension(920, 200));
-        panel.add(update);
         panel.add(scroll);
-        panel.add(back);
-        panel.updateUI();
+        panel.add(textArea);
 
+        panel.updateUI();
     }
 }

@@ -111,9 +111,7 @@ public class FrameClient extends JFrame {
         panel2.setBackground(Color.decode("#9DFF5E"));
         makeOrder.setBackground(Color.decode("#FFD4C3"));
         back.setBackground(Color.decode("#7F6A62"));
-
         deleteOrder.setBackground(Color.decode("#CCFFAA"));
-
         item1.setBackground(Color.decode("#D1FFBD"));
         item2.setBackground(Color.decode("#D1FFBD"));
         item3.setBackground(Color.decode("#7C81B2"));
