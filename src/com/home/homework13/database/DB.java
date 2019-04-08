@@ -18,13 +18,10 @@ public class DB {
             e.printStackTrace();
         }
     }
-    public void update (String sql){  //данный метод вносит изменения в таблицу, вроде добавление/удаление пользователей. этот метод не может отправлять запросы, возвращающие информацию из DB. пример запросов для этого метода INSERT INTO car_rent (values) VALUES ('');
-        try {
+    public void update  (String sql) throws SQLException {  //данный метод вносит изменения в таблицу, вроде добавление/удаление пользователей. этот метод не может отправлять запросы, возвращающие информацию из DB. пример запросов для этого метода INSERT INTO car_rent (values) VALUES ('');
             statement.executeUpdate(sql); //отправка запроса через вызов встроенного метода executeUpdate(String sql) припомощи переменной statement
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
+
     public ResultSet query(String sql){  //данный метода возвращает запросы, он используется для запросов вроде "SELECT * FROM user"
         ResultSet resultset = null;      //создание переменной, в которую будет сохраняться вся информация, которую мы достаем из DB. Заполнение этой переменной null
         try {

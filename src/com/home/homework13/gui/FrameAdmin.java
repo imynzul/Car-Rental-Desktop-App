@@ -21,7 +21,7 @@ public class FrameAdmin extends JFrame {
     private JTextArea textArea;
 
 
-    public FrameAdmin(DB db){
+    public FrameAdmin(DB db) {
         this.db = db;
         setSize(1000, 480);
         setTitle("Страница Администратора");
@@ -34,7 +34,7 @@ public class FrameAdmin extends JFrame {
         setVisible(true);
     }
 
-    public void initComponents(){
+    public void initComponents() {
         panelBackground = new JPanel(); //
         panelBackground.setLayout(new BorderLayout()); //
         panel = new JPanel();
@@ -74,7 +74,7 @@ public class FrameAdmin extends JFrame {
         add(panelBackground); //
     }
 
-    public void initComponentsDesign(){
+    public void initComponentsDesign() {
         panel.setBackground(Color.decode("#FF5700")); //
         panel1.setBackground(Color.decode("#FF6819")); //
         panel2.setBackground(Color.decode("#FF6819")); //
@@ -85,7 +85,7 @@ public class FrameAdmin extends JFrame {
         textArea.setBackground(Color.decode("#FFF98F"));
     }
 
-    public void activation(){
+    public void activation() {
         item1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,7 +116,8 @@ public class FrameAdmin extends JFrame {
         });
 
     }
-    public void updateTable(){
+
+    public void updateTable() {
         panel.remove(scroll);
         panel.remove(textArea);
         DaoUser daoUser = new DaoUser(db);

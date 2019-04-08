@@ -9,8 +9,18 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library>
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://C:/Program Files/Java/jdk1.8.0_171" />
+        </SOURCES>
+        <jarDirectory url="file://C:/Program Files/Java/jdk1.8.0_171" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
         <CLASSES>
-          <root url="jar://C:/Drivers (for Java)/mysql-connector-java-5.1.47/mysql-connector-java-5.1.47-bin.jar!/" />
+          <root url="jar://C:/Drivers (for Java)/mysql-connector-java-5.1.47/mysql-connector-java-5.1.47.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

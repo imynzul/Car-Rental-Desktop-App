@@ -4,7 +4,6 @@ import com.home.homework13.database.DB;
 import com.home.homework13.entity.User;
 
 
-import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,7 +73,6 @@ public class DaoUser implements CarRentInterface<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         return user;
     }

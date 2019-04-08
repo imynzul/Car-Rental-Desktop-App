@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class StartFrame extends JFrame {
 
@@ -125,14 +126,22 @@ public class StartFrame extends JFrame {
             item2.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DBwork.createDB(url.getText(), name.getText(), login.getText(), String.valueOf(password.getPassword()));
+                    try {
+                        DBwork.createDB(url.getText(), name.getText(), login.getText(), String.valueOf(password.getPassword()));
+                    } catch (SQLException e1) {
+                        JOptionPane.showMessageDialog(panel, "Таблица уже существует", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
 
             item3.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DBwork.deleteDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
+                    try {
+                        DBwork.deleteDB(url.getText(), name.getText(),login.getText(),String.valueOf(password.getPassword()));
+                    } catch (SQLException e1) {
+                        JOptionPane.showMessageDialog(panel, "Таблица уже была удалена", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
         }
